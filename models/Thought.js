@@ -51,3 +51,11 @@ const ThoughtSchema = new Schema({
     id: false
 }
 )
+
+ThoughtSchema.virtual('thought').get(function() {
+    return this.replies.length;
+});
+
+const Thought = model('Thought', ThoughtSchema);
+
+module.exports = Thought;

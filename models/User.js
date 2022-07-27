@@ -15,11 +15,31 @@ const UserSchema = new Schema(
             validate: 'enter valid email',
             match: [/.+\@.+\..+/]
         },
-        thoughts: {
-
+        thoughts: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'User'
+            }
+        ],
+        freinds: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'User'
+            }
+        ]
+    },
+    {
+        toJSON: {
+            virtuals: true
         },
-        freinds: {
-            
-        }
+        id: false
     }
 )
+
+UserSchema.virtual('friendCount').get(function() {
+    return this.freinds.length
+});
+
+const User = model('User', UserSchema)
+
+module.exports = User;
